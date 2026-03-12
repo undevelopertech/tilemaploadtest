@@ -19,7 +19,8 @@ void main(void)
     SMS_loadBGPalette(map0_pal_bin);
 
     SMS_mapROMBank(map0_tileset_bin_bank);
-    SMS_loadTiles(map0_tileset_bin, 8, map0_tileset_bin_size);
+    // SMS_loadTiles(map0_tileset_bin, 8, map0_tileset_bin_size);
+    SMS_loadTiles(map0_tileset_bin, 0, map0_tileset_bin_size);
 
     SMS_mapROMBank(map0_tilemap_bin_bank);
     SMS_loadTileMap(0, 0, map0_tilemap_bin, map0_tilemap_bin_size);
