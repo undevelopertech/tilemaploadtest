@@ -9,106 +9,25 @@
 #include "rom.h"
 #include "assets.h"
 
-static bool paused = false;
-
-/**
- * ADD ONE-OFF GAME INITIALIZATION CODE HERE!
- */
-inline void game_init(void)
-{
-  // EXAMPLE
-  SMS_displayOff();
-  SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK);
-  SMS_setNextTileatLoc(0);
-  for (uint8_t line = 0; line < 28; line++)
-  {
-    for (uint8_t col = 0; col < 32; col++)
-    {
-      SMS_setTile(0);
-    }
-  }
-  SMS_autoSetUpTextRenderer();
-  SMS_printatXY(0, 0, "Hello, world!");
-  SMS_displayOn();
-  // END:EXAMPLE
-}
-
-/**
- * UPDATE THE GAME ON EVERY FRAME HERE!
- */
-inline void game_tick(void)
-{
-  // EXAMPLE
-  static uint8_t scroll_x = 9, scroll_y = 184;
-  static int8_t scroll_vx = 1, scroll_vy = -1;
-  SMS_setBGScrollX(scroll_x);
-  SMS_setBGScrollY(scroll_y + 40);
-  if (scroll_x >= 152 || scroll_x < 8)
-  {
-    scroll_vx = -scroll_vx;
-#ifdef USEPSGLIB
-    PSGSFXPlay(bleep_psg, 0);
-#endif
-  }
-  scroll_x += scroll_vx;
-  if (scroll_y > 184)
-  {
-    scroll_vy = -scroll_vy;
-#ifdef USEPSGLIB
-    PSGSFXPlay(bloop_psg, 0);
-#endif
-  }
-  scroll_y += scroll_vy;
-  // END:EXAMPLE
-}
-
-/**
- * BOILERPLATE / STRUCTURAL FUNCTIONS BELOW
- */
-inline void play_audio_frames(void)
-{
-#ifdef USEPSGLIB
-  if (!paused)
-  {
-    SMS_saveROMBank();
-    SMS_mapROMBank(MUSIC_BANK);
-    PSGFrame();
-    SMS_mapROMBank(SFX_BANK);
-    PSGSFXFrame();
-    SMS_restoreROMBank();
-  }
-#endif
-}
-
-/**
- * THE MAIN ENTRYPOINT - EVERYTHING STARTS HERE!
- */
 void main(void)
 {
-  // do any one-off game initialization
-  game_init();
 
-  // main game loop, repeats indefinitely
-  while (1)
-  {
-    // synchronize this loop to run every display frame (i.e. 50 or 60Hz)
+    SMS_init();
     SMS_waitForVBlank();
-    // if using PSGlib audio you must call PSGFrame, etc. at *regular* intervals, e.g. immediately after VBlank
-    play_audio_frames();
-    // if you are using sprites, you might want to update their positions once per frame for fluid motion
-    SMS_copySpritestoSAT();
 
-    // basic pause button handling
-    if (SMS_queryPauseRequested())
-    {
-      paused = !paused;
-      SMS_resetPauseRequest();
-    }
+    SMS_mapROMBank(map0_pal_bin_bank);
+    SMS_loadBGPalette(map0_pal_bin);
 
-    if (!paused)
+    SMS_mapROMBank(map0_tileset_bin_bank);
+    SMS_loadTiles(map0_tileset_bin, 8, map0_tileset_bin_size);
+
+    SMS_mapROMBank(map0_tilemap_bin_bank);
+    SMS_loadTileMap(0, 0, map0_tilemap_bin, map0_tilemap_bin_size);
+
+    SMS_displayOn();
+
+    while (1)
     {
-      // do game logic
-      game_tick();
+        SMS_waitForVBlank();
     }
-  }
 }
