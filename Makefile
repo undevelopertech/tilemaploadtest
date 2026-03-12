@@ -4,7 +4,7 @@
 export PROJECTNAME ?= $(notdir $(CURDIR))
 # set USEPSGLIB to 0 to compile without audio support
 export USEPSGLIB ?= 1
-export TARGET_EXTENSION ?= sms
+export TARGET_EXTENSION ?= gg
 
 # allow for unmanaged banks at beginning of ROM. 2 is usually the starting value here.
 export FIRSTBANK := 2
