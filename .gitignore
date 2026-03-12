@@ -1,0 +1,4 @@
+build/
+*.lst
+.DS_Store
+*.generated.*

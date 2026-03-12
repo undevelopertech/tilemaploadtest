@@ -1,0 +1,27 @@
+{
+  "files.associations": {
+    "*.txt": "plaintext",
+    "*.inc": "wla-dx-asm",
+    "*.lib": "wla-dx-asm",
+    "*.h": "c"
+  },
+  "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+  "C_Cpp.default.includePath": [
+    "/opt/sdcc/share/sdcc/include",
+    "/opt/devkitsms/include",
+    "./src",
+    "./src/**",
+    "./assets/build"
+  ],
+  "C_Cpp.default.defines": [
+    "__banked=",
+    "__at(n)=",
+    "__z88dk_fastcall=",
+    "__z88dk_callee=",
+    "__preserves_regs(...)=",
+    "__naked=",
+    "__sdcccall(n)=",
+    "__sfr=",
+    "USEPSGLIB"
+  ]
+}
